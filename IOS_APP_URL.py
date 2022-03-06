@@ -18,7 +18,7 @@ p =page.status_code
 # get html from url
 doc = BeautifulSoup(page.text, "html.parser")
 # Create your table
-db = sqlite3.connect('test3.db')
+db = sqlite3.connect('urldata.db')
 cursor = db.cursor()
 cursor.execute('''CREATE TABLE IF NOT EXISTS links (url VARCHAR(100))''')
 # get category class from html 
@@ -91,7 +91,7 @@ for xx in catName:
 
                 #print (x,yourList)
                 # Insert your list into the table
-                db = sqlite3.connect('test3.db')
+                db = sqlite3.connect('urldata.db')
                 cursor = db.cursor()
                 cursor.execute("INSERT INTO links (url) VALUES(?)", (yourList,))
 
@@ -132,7 +132,7 @@ for xx in catName:
                                 yourList   = (a['href'])
 
                                 # Insert your list into the table
-                                db = sqlite3.connect('test3.db')
+                                db = sqlite3.connect('urldata.db')
                                 cursor = db.cursor()
                                 cursor.execute("INSERT INTO links (url) VALUES(?)", (yourList,))
                                 # Commit and close
@@ -150,7 +150,7 @@ for xx in catName:
 
                     #print (x,yourList)
                             # Insert your list into the table
-                    db = sqlite3.connect('test3.db')
+                    db = sqlite3.connect('urldata.db')
                     cursor = db.cursor()
                     cursor.execute("INSERT INTO links (url) VALUES(?)", (yourList,))
 
