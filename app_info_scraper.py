@@ -18,7 +18,7 @@ sql_command = '''CREATE TABLE IF NOT EXISTS app_info (
     age text,
     category text,
     price text,
-    in_app_purchases, text,
+    in_app_purchases text,
     rating_avg text,
     rating_count text,
     description text,
@@ -46,7 +46,7 @@ db.commit()
 
 # working
 def app_title(soup):
-    
+    global app_name
     for x in soup.findAll("h1",{"class":"product-header__title app-header__title"}):
         for span in soup.findAll("span",{"class":"badge badge--product-title"}):
             span.decompose()
@@ -56,57 +56,84 @@ def app_title(soup):
 
     # works
 def provider_link(soup):
-    link =soup.find(class_="product-header__identity app-header__identity")
-    for a in link.find_all('a', href=True):
-        provider_link   = (a['href'])
+    try :
+        link =soup.find(class_="product-header__identity app-header__identity")
+        for a in link.find_all('a', href=True):
+            provider_link   = (a['href'])
+    except:
+        provider_link = "Error"
     #print(provider_link)
     return provider_link
     
 #works
 def provider(soup):
     cat = soup.find(class_="information-list information-list--app medium-columns l-row")
-    provider = cat.find('dt', string='Provider').find_next_siblings('dd')
-    provider = provider[0].text.strip()
-    #print(provider)
+    try :
+        provider = cat.find('dt', string='Provider').find_next_siblings('dd')
+        provider = provider[0].text.strip()
+        #print(provider)
+    except:
+        print("Privider wrong")
+        provider = "Error"
     return provider
 
 # works
 def size(soup):
     cat = soup.find(class_="information-list information-list--app medium-columns l-row")
-    size = cat.find('dt', string='Size').find_next_siblings('dd')
-    size = size[0].text.strip()
-    #print(size)
+    try :
+        size = cat.find('dt', string='Size').find_next_siblings('dd')
+        size = size[0].text.strip()
+        #print(size)
+    except:
+        print("size wrong")
+        size = "Error"
     return size
 
 # works
 def category(soup):
     cat = soup.find(class_="information-list information-list--app medium-columns l-row")
-    category = cat.find('dt', string='Category').find_next_siblings('dd')
-    category = category[0].text.strip()
-    #print(category)
+    try :
+        category = cat.find('dt', string='Category').find_next_siblings('dd')
+        category = category[0].text.strip()
+        #print(category)
+    except:
+        print("category wrong")
+        category = "Error"
     return category
 
     # works
 def age(soup):
     cat = soup.find(class_="information-list information-list--app medium-columns l-row")
-    age = cat.find('dt', string='Age Rating').find_next_siblings('dd')
-    age = age[0].text.strip()
-    #print(age)
+    try :
+        age = cat.find('dt', string='Age Rating').find_next_siblings('dd')
+        age = age[0].text.strip()
+        #print(age)
+    except:
+        print("age wrong")
+        age = "Error"
     return age
 
     # works
 def price(soup):
     cat = soup.find(class_="information-list information-list--app medium-columns l-row")
-    price = cat.find('dt', string='Price').find_next_siblings('dd')
-    price = price[0].text.strip()
-    #print(price)
+    try :
+        price = cat.find('dt', string='Price').find_next_siblings('dd')
+        price = price[0].text.strip()
+        #print(price)
+    except:
+        print("price wrong")
+        price = "Error"
     return price
 
 def app_info(soup):
     # working
-    app_info = soup.find_all(class_="small-hide medium-show")
-    app_info =soup.find(class_="section__description").text.strip()
-    #print(app_info)
+    try :
+        app_info = soup.find_all(class_="small-hide medium-show")
+        app_info =soup.find(class_="section__description").text.strip()
+        #print(app_info)
+    except:
+        print("app_info wrong")
+        app_info = "Error"
     return app_info
 
     # working
@@ -173,174 +200,207 @@ def in_app_purch(soup):
     #working extract iphone
 def ver_phone(soup):
     cat = soup.find(class_="information-list information-list--app medium-columns l-row")
-    x = cat.find('dt', string='Compatibility').find_next('dd')
-    dl_data = x.find("dt")
-    #print (dl_data.string)
+    try:
+        x = cat.find('dt', string='Compatibility').find_next('dd')
+        dl_data = x.find("dt")
+        #print (dl_data.string)
 
-    dl_data = x.find("dd")
-    for dlitem in dl_data:
-        dlitem = dlitem.string
-       # print (dlitem)
+        dl_data = x.find("dd")
+        for dlitem in dl_data:
+            dlitem = dlitem.string
+        # print (dlitem)
+    except:
+        print("app_info wrong")
+        dlitem = "Error" 
     return dlitem
     
 
 
 def link(soup):
     # works
+    privacy_policy = "No Privacy Policy"
+    app_support_link = "No app Support link "
     link =soup.find(class_="inline-list inline-list--app-extensions")
-    for a in link.find_all('a', href=True):
-        #print(a.text.strip())
-        test = a.text.strip()
-        if test == "App Support":
-            app_support_link = (a['href'])
-        elif test == "Privacy Policy":
-            privacy_policy = (a['href'])
+    try:
+        for a in link.find_all('a', href=True):
+            #print(a.text.strip())
+            test = a.text.strip()
+            if test == "App Support":
+                app_support_link = (a['href'])
+            elif test == "Privacy Policy":
+                privacy_policy = (a['href'])
+    except:
+        print("ERORR")
 
-    #print(" app sup",app_support_link)
-    #print(" app pol",privacy_policy)
+
+    print(" app sup",app_support_link)
+    print(" app pol",privacy_policy)
     return app_support_link,privacy_policy
 
 def link_check(privacy_policy_link):
-    try :
-        privacy_policy_url = privacy_policy_link
-        page = requests.get(privacy_policy_url)
-        page.status_code
-        result =page.status_code
-        #print(result)
-    except:
-        result = "unkown Error"
-        #print(result)
+    if privacy_policy_link == "No Privacy Policy":
+        result= "No Privacy Policy Link"
+    else:
+        try :
+            privacy_policy_url = privacy_policy_link
+            page = requests.get(privacy_policy_url)
+            page.status_code
+            result =page.status_code
+            #print(result)
+        except:
+            result = "unkown Error"
+            #print(result)
     return result
 
     
 
-url =["https://apps.apple.com/ie/app/facebook/id284882215","https://apps.apple.com/ie/app/f3-crossroads-il/id1562088347","https://apps.apple.com/ie/app/face-emojis-2-sticker-pack/id1465897354"]
+#list_url =["https://apps.apple.com/ie/app/go-nowe-miasto-nad-pilic%C4%85/id1574961647","https://apps.apple.com/ie/app/f3-crossroads-il/id1562088347","https://apps.apple.com/ie/app/face-emojis-2-sticker-pack/id1465897354"]
 
-    
+sqliteConnection = sqlite3.connect('urldata.db')
+cursor2 = sqliteConnection.cursor()
+sqlite_select_query = """SELECT * from links"""
+cursor2.execute(sqlite_select_query)
+list_url = cursor2.fetchall()
+print("Total rows are:  ", len(list_url))
 
 #url = "https://apps.apple.com/ie/app/facebook/id284882215"
 
 
 
 #cat = soup.find(class_="information-list information-list--app medium-columns l-row")
+countapp = 0
+for urls in list_url :
 
-for list_url in url :
-    page = requests.get(list_url)
+    print("----------------------------------START------------------------------------------------")
+    
+    countapp += 1
+    print("----------------------------------+ ",countapp," +---------------------------------------------")
+    url = urls[0]
+    print(url)
+    page = requests.get(url)
     soup = BeautifulSoup(page.text, "html.parser")
     
     
     # works
-    apptitle  = app_title(soup)
-    print(apptitle)
+    app_name  = app_title(soup)
+    print(app_name)
 
     providerlink = provider_link(soup)
-    #print(providerlink)
+    print(providerlink)
 
     provider_n = provider(soup)
-    #print(provider_n)
+    print(provider_n)
 
     app_size = size(soup)
-    #print(app_size)
+    print(app_size)
 
     category_n = category(soup)
-    #print(category_n)
+    print(category_n)
 
     age_user = age(soup)
-    #print(age_user)
+    print(age_user)
 
     app_price = price(soup)
-    #print(app_price)
+    print(app_price)
 
     info_app = app_info(soup)
-    #print(info_app)
+    print(info_app)
 
     rating_avg = avg_rating(soup)
-    #print(rating_avg)
+    print(rating_avg)
 
     app_rating = rating(soup)
-    #print(app_rating)
+    print(app_rating)
 
     app_version = version(soup)
-    #print(app_version)
+    print(app_version)
 
     app_version_date = vers_date(soup)
-    #print(app_version_date)
+    print(app_version_date)
 
     purch_in_app = in_app_purch(soup)
-    #print(purch_in_app)
+    print(purch_in_app)
 
     # working 
-    
-    listTags=[]
-    listTags.append(soup.find('div', {"class": "app-privacy__card"}))
-    for i in listTags[0].find_next_siblings('div', {"class": "app-privacy__card"}):
-        listTags.append(i)    
-    for i in listTags:
-        print("----------------------------------START------------------------------------------------")
+    try:
+        listTags=[]
+        listTags.append(soup.find('div', {"class": "app-privacy__card"}))
+        for i in listTags[0].find_next_siblings('div', {"class": "app-privacy__card"}):
+            listTags.append(i)    
+        for i in listTags:
+        
+            NDP =""
+            DUTY =""
+            DNLU =""
+            DLU =""
+            DNC =""
+            try:
+                #print(i.findChild('h3').text.strip())
+                c = i.findChild('h3').text.strip()
+                if c == "Data Used to Track You" :
+                    #print(c)
+                    new =i.text.strip()
+                    #print(new)       
+                    DUTY = new.replace(c, "")
+                    #print(new_string)
+                elif c == "Data Not Linked to You" :
+                    #print(c)
+                    new =i.text.strip()
+                    #print(new)       
+                    DNLU = new.replace(c, "")
+                elif c == "Data Linked to You" :
+                    #print(c)
+                    new =i.text.strip()
+                    #print(new)       
+                    DLU = new.replace(c, "")
+                elif c == "Data Not Collected" :
+                    #print(c)
+                    new =i.text.strip()
+                    #print(new)       
+                    DNC = new.replace(c, "")
+                elif c == "No Details Provided" :
+                    #print(c)
+                    new =i.text.strip()
+                    #print(new)       
+                    NDP = new.replace(c, "")
+                else :
+                    print("++++++++++++++++++++++")
+
+            except:
+                print("error")
+
+            print(DUTY)
+            print(DNLU)
+            print(DLU)
+            print(DNC)
+            print(NDP)
+    except:
         NDP =""
         DUTY =""
         DNLU =""
         DLU =""
         DNC =""
-        try:
-            #print(i.findChild('h3').text.strip())
-            c = i.findChild('h3').text.strip()
-            if c == "Data Used to Track You" :
-                #print(c)
-                new =i.text.strip()
-                #print(new)       
-                DUTY = new.replace(c, "")
-                #print(new_string)
-            elif c == "Data Not Linked to You" :
-                #print(c)
-                new =i.text.strip()
-                #print(new)       
-                DNLU = new.replace(c, "")
-            elif c == "Data Linked to You" :
-                #print(c)
-                new =i.text.strip()
-                #print(new)       
-                DLU = new.replace(c, "")
-            elif c == "Data Not Collected" :
-                #print(c)
-                new =i.text.strip()
-                #print(new)       
-                DNC = new.replace(c, "")
-            elif c == "No Details Provided" :
-                #print(c)
-                new =i.text.strip()
-                #print(new)       
-                NDP = new.replace(c, "")
-            else :
-                print("++++++++++++++++++++++")
-
-        except:
-            print("error")
-
-        #print(DUTY)
-        #print(DNLU)
-        #print(DLU)
-        #print(DNC)
-        #print(NDP)
-        print("----------------------------------END------------------------------------------------")
+        print("error")
 
     phone_ver = ver_phone(soup)
-    #print(phone_ver)
+    print(phone_ver)
 
     link_app_support, privacy_policy_link = link(soup)
-    #print(link_app_support)
-    #print(privacy_policy_link)
+    print(link_app_support)
+    print(privacy_policy_link)
 
     link_pricacy_policy = link_check(privacy_policy_link)
-    #print(link_pricacy_policy)
+    print(link_pricacy_policy)
     
     # Insert your list into the table
     db = sqlite3.connect('app_info.db')
     cursor = db.cursor()
     cursor.execute("INSERT INTO app_info (app_name,app_url,company_name,develper_website_link,age,category,price,in_app_purchases,rating_avg,rating_count,description,version,latest_version_date,compatibility,size,app_support,privacy_policy_url,HTTP_status,data_used_to_track_user,data_linked_to_user,data_not_linked_to_user,data_not_collected,no_details_provided) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
-    (apptitle, list_url, provider_n, providerlink, age_user, category_n, app_price, purch_in_app, rating_avg
+    (app_name, url, provider_n, providerlink, age_user, category_n, app_price, purch_in_app, rating_avg
     , app_rating, info_app, app_version, app_version_date, phone_ver, app_size, link_app_support, privacy_policy_link, link_pricacy_policy
     , DUTY, DLU, DNLU, DNC, NDP,))
     # Commit and close
     db.commit()
     db.close()
+    print("----------------------------------END------------------------------------------------")
+    cursor2.close()
