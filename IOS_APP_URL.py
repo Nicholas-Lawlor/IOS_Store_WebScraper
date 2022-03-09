@@ -179,8 +179,3 @@ for xx in catName:
                         print("done")
                         # print(i)
                         finished = True
-
-
-    # check point inserted numlist = none
-
-
