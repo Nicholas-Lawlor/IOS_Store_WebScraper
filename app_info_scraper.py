@@ -56,14 +56,15 @@ def app_title(soup):
 
     # works
 def provider_link(soup):
+    providerurl = ""
     try :
         link =soup.find(class_="product-header__identity app-header__identity")
         for a in link.find_all('a', href=True):
-            provider_link   = (a['href'])
+            providerurl   = (a['href'])
     except:
-        provider_link = "Error"
+        providerurl = "Error"
     #print(provider_link)
-    return provider_link
+    return providerurl
     
 #works
 def provider(soup):
@@ -242,10 +243,13 @@ def link_check(privacy_policy_link):
         result= "No Privacy Policy Link"
     else:
         try :
+            print("i am here")
             privacy_policy_url = privacy_policy_link
-            page = requests.get(privacy_policy_url)
+            #page = requests.get(privacy_policy_url)
+            page = requests.get(privacy_policy_url, timeout=10)
             page.status_code
             result =page.status_code
+            print("i am done")
             #print(result)
         except:
             result = "unkown Error"
@@ -268,139 +272,142 @@ print("Total rows are:  ", len(list_url))
 
 
 #cat = soup.find(class_="information-list information-list--app medium-columns l-row")
-countapp = 0
+countapp = 1
 for urls in list_url :
+    if countapp >=  4901 :
 
-    print("----------------------------------START------------------------------------------------")
-    
-    countapp += 1
-    print("----------------------------------+ ",countapp," +---------------------------------------------")
-    url = urls[0]
-    print(url)
-    page = requests.get(url)
-    soup = BeautifulSoup(page.text, "html.parser")
-    
-    
-    # works
-    app_name  = app_title(soup)
-    print(app_name)
-
-    providerlink = provider_link(soup)
-    print(providerlink)
-
-    provider_n = provider(soup)
-    print(provider_n)
-
-    app_size = size(soup)
-    print(app_size)
-
-    category_n = category(soup)
-    print(category_n)
-
-    age_user = age(soup)
-    print(age_user)
-
-    app_price = price(soup)
-    print(app_price)
-
-    info_app = app_info(soup)
-    print(info_app)
-
-    rating_avg = avg_rating(soup)
-    print(rating_avg)
-
-    app_rating = rating(soup)
-    print(app_rating)
-
-    app_version = version(soup)
-    print(app_version)
-
-    app_version_date = vers_date(soup)
-    print(app_version_date)
-
-    purch_in_app = in_app_purch(soup)
-    print(purch_in_app)
-
-    # working 
-    try:
-        listTags=[]
-        listTags.append(soup.find('div', {"class": "app-privacy__card"}))
-        for i in listTags[0].find_next_siblings('div', {"class": "app-privacy__card"}):
-            listTags.append(i)    
-        for i in listTags:
+        print("----------------------------------START------------------------------------------------")
         
+        countapp += 1
+        print("----------------------------------+ ",countapp," +---------------------------------------------")
+        url = urls[0]
+        print(url)
+        page = requests.get(url)
+        soup = BeautifulSoup(page.text, "html.parser")
+        
+        
+        # works
+        app_name  = app_title(soup)
+        print(app_name)
+
+        providerlink = provider_link(soup)
+        print(providerlink)
+
+        provider_n = provider(soup)
+        print(provider_n)
+
+        app_size = size(soup)
+        #print(app_size)
+
+        category_n = category(soup)
+        #print(category_n)
+
+        age_user = age(soup)
+        #print(age_user)
+
+        app_price = price(soup)
+        #print(app_price)
+
+        info_app = app_info(soup)
+        #print(info_app)
+
+        rating_avg = avg_rating(soup)
+        #print(rating_avg)
+
+        app_rating = rating(soup)
+        #print(app_rating)
+
+        app_version = version(soup)
+        #print(app_version)
+
+        app_version_date = vers_date(soup)
+        #print(app_version_date)
+
+        purch_in_app = in_app_purch(soup)
+        #print(purch_in_app)
+
+        # working 
+        try:
+            listTags=[]
+            listTags.append(soup.find('div', {"class": "app-privacy__card"}))
+            for i in listTags[0].find_next_siblings('div', {"class": "app-privacy__card"}):
+                listTags.append(i)    
+            for i in listTags:
+            
+                NDP =""
+                DUTY =""
+                DNLU =""
+                DLU =""
+                DNC =""
+                try:
+                    #print(i.findChild('h3').text.strip())
+                    c = i.findChild('h3').text.strip()
+                    if c == "Data Used to Track You" :
+                        #print(c)
+                        new =i.text.strip()
+                        #print(new)       
+                        DUTY = new.replace(c, "")
+                        #print(new_string)
+                    elif c == "Data Not Linked to You" :
+                        #print(c)
+                        new =i.text.strip()
+                        #print(new)       
+                        DNLU = new.replace(c, "")
+                    elif c == "Data Linked to You" :
+                        #print(c)
+                        new =i.text.strip()
+                        #print(new)       
+                        DLU = new.replace(c, "")
+                    elif c == "Data Not Collected" :
+                        #print(c)
+                        new =i.text.strip()
+                        #print(new)       
+                        DNC = new.replace(c, "")
+                    elif c == "No Details Provided" :
+                        #print(c)
+                        new =i.text.strip()
+                        #print(new)       
+                        NDP = new.replace(c, "")
+                    else :
+                        print("++++++++++++++++++++++")
+
+                except:
+                    print("error")
+
+                #print(DUTY)
+                #print(DNLU)
+                #print(DLU)
+                #print(DNC)
+                #print(NDP)
+        except:
             NDP =""
             DUTY =""
             DNLU =""
             DLU =""
             DNC =""
-            try:
-                #print(i.findChild('h3').text.strip())
-                c = i.findChild('h3').text.strip()
-                if c == "Data Used to Track You" :
-                    #print(c)
-                    new =i.text.strip()
-                    #print(new)       
-                    DUTY = new.replace(c, "")
-                    #print(new_string)
-                elif c == "Data Not Linked to You" :
-                    #print(c)
-                    new =i.text.strip()
-                    #print(new)       
-                    DNLU = new.replace(c, "")
-                elif c == "Data Linked to You" :
-                    #print(c)
-                    new =i.text.strip()
-                    #print(new)       
-                    DLU = new.replace(c, "")
-                elif c == "Data Not Collected" :
-                    #print(c)
-                    new =i.text.strip()
-                    #print(new)       
-                    DNC = new.replace(c, "")
-                elif c == "No Details Provided" :
-                    #print(c)
-                    new =i.text.strip()
-                    #print(new)       
-                    NDP = new.replace(c, "")
-                else :
-                    print("++++++++++++++++++++++")
+            print("error")
 
-            except:
-                print("error")
+        phone_ver = ver_phone(soup)
+        #print(phone_ver)
 
-            print(DUTY)
-            print(DNLU)
-            print(DLU)
-            print(DNC)
-            print(NDP)
-    except:
-        NDP =""
-        DUTY =""
-        DNLU =""
-        DLU =""
-        DNC =""
-        print("error")
+        link_app_support, privacy_policy_link = link(soup)
+        print(link_app_support)
+        print(privacy_policy_link)
 
-    phone_ver = ver_phone(soup)
-    print(phone_ver)
-
-    link_app_support, privacy_policy_link = link(soup)
-    print(link_app_support)
-    print(privacy_policy_link)
-
-    link_pricacy_policy = link_check(privacy_policy_link)
-    print(link_pricacy_policy)
-    
-    # Insert your list into the table
-    db = sqlite3.connect('app_info.db')
-    cursor = db.cursor()
-    cursor.execute("INSERT INTO app_info (app_name,app_url,company_name,develper_website_link,age,category,price,in_app_purchases,rating_avg,rating_count,description,version,latest_version_date,compatibility,size,app_support,privacy_policy_url,HTTP_status,data_used_to_track_user,data_linked_to_user,data_not_linked_to_user,data_not_collected,no_details_provided) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
-    (app_name, url, provider_n, providerlink, age_user, category_n, app_price, purch_in_app, rating_avg
-    , app_rating, info_app, app_version, app_version_date, phone_ver, app_size, link_app_support, privacy_policy_link, link_pricacy_policy
-    , DUTY, DLU, DNLU, DNC, NDP,))
-    # Commit and close
-    db.commit()
-    db.close()
-    print("----------------------------------END------------------------------------------------")
-    cursor2.close()
+        link_pricacy_policy = link_check(privacy_policy_link)
+        print(link_pricacy_policy)
+        
+        # Insert your list into the table
+        db = sqlite3.connect('app_info.db')
+        cursor = db.cursor()
+        cursor.execute("INSERT INTO app_info (app_name,app_url,company_name,develper_website_link,age,category,price,in_app_purchases,rating_avg,rating_count,description,version,latest_version_date,compatibility,size,app_support,privacy_policy_url,HTTP_status,data_used_to_track_user,data_linked_to_user,data_not_linked_to_user,data_not_collected,no_details_provided) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+        (app_name, url, provider_n, providerlink, age_user, category_n, app_price, purch_in_app, rating_avg
+        , app_rating, info_app, app_version, app_version_date, phone_ver, app_size, link_app_support, privacy_policy_link, link_pricacy_policy
+        , DUTY, DLU, DNLU, DNC, NDP,))
+        # Commit and close
+        db.commit()
+        db.close()
+        print("----------------------------------END------------------------------------------------")
+        cursor2.close()
+    else:
+        countapp +=1
