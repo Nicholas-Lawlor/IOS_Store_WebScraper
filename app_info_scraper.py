@@ -260,7 +260,7 @@ def link_check(privacy_policy_link):
 
 #list_url =["https://apps.apple.com/ie/app/go-nowe-miasto-nad-pilic%C4%85/id1574961647","https://apps.apple.com/ie/app/f3-crossroads-il/id1562088347","https://apps.apple.com/ie/app/face-emojis-2-sticker-pack/id1465897354"]
 
-sqliteConnection = sqlite3.connect('urldata.db')
+sqliteConnection = sqlite3.connect('urldb.db')
 cursor2 = sqliteConnection.cursor()
 sqlite_select_query = """SELECT * from links"""
 cursor2.execute(sqlite_select_query)
