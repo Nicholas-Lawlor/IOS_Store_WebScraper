@@ -272,9 +272,9 @@ print("Total rows are:  ", len(list_url))
 
 
 #cat = soup.find(class_="information-list information-list--app medium-columns l-row")
-countapp = 1
+countapp = 0
 for urls in list_url :
-    if countapp >=  1 :
+    if countapp >=  0 :
 
         print("----------------------------------START------------------------------------------------")
         
