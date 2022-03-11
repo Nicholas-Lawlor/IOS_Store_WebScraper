@@ -76,7 +76,7 @@ def provider(soup):
         provider = provider[0].text.strip()
         #print(provider)
     except:
-        print("Privider wrong")
+        #print("Privider wrong")
         provider = "Error"
     return provider
 
@@ -88,7 +88,7 @@ def size(soup):
         size = size[0].text.strip()
         #print(size)
     except:
-        print("size wrong")
+        #print("size wrong")
         size = "Error"
     return size
 
@@ -100,7 +100,7 @@ def category(soup):
         category = category[0].text.strip()
         #print(category)
     except:
-        print("category wrong")
+        #print("category wrong")
         category = "Error"
     return category
 
@@ -112,7 +112,7 @@ def age(soup):
         age = age[0].text.strip()
         #print(age)
     except:
-        print("age wrong")
+        #print("age wrong")
         age = "Error"
     return age
 
@@ -124,7 +124,7 @@ def price(soup):
         price = price[0].text.strip()
         #print(price)
     except:
-        print("price wrong")
+        #print("price wrong")
         price = "Error"
     return price
 
@@ -135,7 +135,7 @@ def app_info(soup):
         app_info =soup.find(class_="section__description").text.strip()
         #print(app_info)
     except:
-        print("app_info wrong")
+        #print("app_info wrong")
         app_info = "Error"
     return app_info
 
@@ -213,7 +213,7 @@ def ver_phone(soup):
             dlitem = dlitem.string
         # print (dlitem)
     except:
-        print("app_info wrong")
+        #print("app_info wrong")
         dlitem = "Error" 
     return dlitem
     
@@ -236,8 +236,8 @@ def link(soup):
         print("ERORR")
 
 
-    print(" app sup",app_support_link)
-    print(" app pol",privacy_policy)
+    #print(" app sup",app_support_link)
+    #print(" app pol",privacy_policy)
     return app_support_link,privacy_policy
 
 def link_check(privacy_policy_link):
@@ -245,13 +245,13 @@ def link_check(privacy_policy_link):
         result= "No Privacy Policy Link"
     else:
         try :
-            print("i am here")
+            #print("i am here")
             privacy_policy_url = privacy_policy_link
             #page = requests.get(privacy_policy_url)
             page = requests.get(privacy_policy_url, timeout=10)
             page.status_code
             result =page.status_code
-            print("i am done")
+            #print("i am done")
             #print(result)
         except:
             result = "unkown Error"
@@ -268,7 +268,7 @@ cursor2 = sqliteConnection.cursor()
 sqlite_select_query = """SELECT * from links"""
 cursor2.execute(sqlite_select_query)
 list_url = cursor2.fetchall()
-print("Total rows are:  ", len(list_url))
+#print("Total rows are:  ", len(list_url))
 
 #url = "https://apps.apple.com/ie/app/facebook/id284882215"
 
@@ -278,33 +278,34 @@ print("Total rows are:  ", len(list_url))
 countapp = 1
 for urls in list_url :
 
-    if countapp == 22312:
+    if countapp == 51011:
         end_time = time.monotonic()
         print("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
         print("-------------------------------",timedelta(seconds=end_time - start_time),"--------------------------")
         print("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
 
-    if countapp >=  21312 :
+    if countapp >=  52011 :
 
-        print("----------------------------------START------------------------------------------------")
+        #print("----------------------------------START------------------------------------------------")
         
         countapp += 1
-        print("----------------------------------+ ",countapp," +---------------------------------------------")
+        if countapp % 1000 == 0:
+            print("----------------------------------+ ",countapp," +---------------------------------------------")
         url = urls[0]
-        print(url)
+        #print(url)
         page = requests.get(url)
         soup = BeautifulSoup(page.text, "html.parser")
         
         
         # works
         app_name  = app_title(soup)
-        print(app_name)
+        #print(app_name)
 
         providerlink = provider_link(soup)
-        print(providerlink)
+        #print(providerlink)
 
         provider_n = provider(soup)
-        print(provider_n)
+        #print(provider_n)
 
         app_size = size(soup)
         #print(app_size)
