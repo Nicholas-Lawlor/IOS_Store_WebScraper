@@ -3,9 +3,11 @@ import requests
 import json
 import sqlite3
 import re
-
+import time
+from datetime import timedelta
 
 # Create your table
+start_time = time.monotonic()
 db = sqlite3.connect('app_info.db')
 cursor = db.cursor()
 
@@ -257,6 +259,7 @@ def link_check(privacy_policy_link):
     return result
 
     
+    
 
 #list_url =["https://apps.apple.com/ie/app/go-nowe-miasto-nad-pilic%C4%85/id1574961647","https://apps.apple.com/ie/app/f3-crossroads-il/id1562088347","https://apps.apple.com/ie/app/face-emojis-2-sticker-pack/id1465897354"]
 
@@ -272,9 +275,16 @@ print("Total rows are:  ", len(list_url))
 
 
 #cat = soup.find(class_="information-list information-list--app medium-columns l-row")
-countapp = 0
+countapp = 1
 for urls in list_url :
-    if countapp >=  0 :
+
+    if countapp == 22312:
+        end_time = time.monotonic()
+        print("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
+        print("-------------------------------",timedelta(seconds=end_time - start_time),"--------------------------")
+        print("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
+
+    if countapp >=  21312 :
 
         print("----------------------------------START------------------------------------------------")
         
@@ -411,3 +421,4 @@ for urls in list_url :
         cursor2.close()
     else:
         countapp +=1
+
