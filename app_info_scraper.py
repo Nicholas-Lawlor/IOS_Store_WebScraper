@@ -402,11 +402,11 @@ for urls in list_url :
         #print(phone_ver)
 
         link_app_support, privacy_policy_link = link(soup)
-        print(link_app_support)
-        print(privacy_policy_link)
+        #print(link_app_support)
+        #print(privacy_policy_link)
 
         link_pricacy_policy = link_check(privacy_policy_link)
-        print(link_pricacy_policy)
+        #print(link_pricacy_policy)
         
         # Insert your list into the table
         db = sqlite3.connect('app_info.db')
@@ -418,7 +418,7 @@ for urls in list_url :
         # Commit and close
         db.commit()
         db.close()
-        print("----------------------------------END------------------------------------------------")
+        #print("----------------------------------END------------------------------------------------")
         cursor2.close()
     else:
         countapp +=1
