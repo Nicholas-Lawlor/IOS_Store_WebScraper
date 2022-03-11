@@ -263,7 +263,7 @@ def link_check(privacy_policy_link):
 
 #list_url =["https://apps.apple.com/ie/app/go-nowe-miasto-nad-pilic%C4%85/id1574961647","https://apps.apple.com/ie/app/f3-crossroads-il/id1562088347","https://apps.apple.com/ie/app/face-emojis-2-sticker-pack/id1465897354"]
 
-sqliteConnection = sqlite3.connect('urldb.db')
+sqliteConnection = sqlite3.connect('urldata.db')
 cursor2 = sqliteConnection.cursor()
 sqlite_select_query = """SELECT * from links"""
 cursor2.execute(sqlite_select_query)
@@ -278,18 +278,18 @@ list_url = cursor2.fetchall()
 countapp = 1
 for urls in list_url :
 
-    if countapp == 52111:
+    if countapp == 22303:
         end_time = time.monotonic()
         print("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
         print("-------------------------------",timedelta(seconds=end_time - start_time),"--------------------------")
         print("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
 
-    if countapp >=  51111 :
+    if countapp >=  21303 :
 
         #print("----------------------------------START------------------------------------------------")
         
         countapp += 1
-        if countapp % 1000 == 0:
+        if countapp % 10 == 0:
             print("----------------------------------+ ",countapp," +---------------------------------------------")
         url = urls[0]
         #print(url)
