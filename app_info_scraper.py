@@ -263,7 +263,7 @@ def link_check(privacy_policy_link):
 
 #list_url =["https://apps.apple.com/ie/app/go-nowe-miasto-nad-pilic%C4%85/id1574961647","https://apps.apple.com/ie/app/f3-crossroads-il/id1562088347","https://apps.apple.com/ie/app/face-emojis-2-sticker-pack/id1465897354"]
 
-sqliteConnection = sqlite3.connect('urldb.db')
+sqliteConnection = sqlite3.connect('urldata.db')
 cursor2 = sqliteConnection.cursor()
 sqlite_select_query = """SELECT * from links"""
 cursor2.execute(sqlite_select_query)
@@ -278,13 +278,13 @@ list_url = cursor2.fetchall()
 countapp = 1
 for urls in list_url :
 
-    if countapp % 1000 == 0:
+    if countapp == 22303:
         end_time = time.monotonic()
         print("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
         print("-------------------------------",timedelta(seconds=end_time - start_time),"--------------------------")
         print("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
 
-    if countapp >=  254155 :
+    if countapp >=  1 :
 
         #print("----------------------------------START------------------------------------------------")
         
@@ -339,17 +339,18 @@ for urls in list_url :
 
         # working 
         try:
+            NDP =""
+            DUTY =""
+            DNLU =""
+            DLU =""
+            DNC =""
             listTags=[]
             listTags.append(soup.find('div', {"class": "app-privacy__card"}))
             for i in listTags[0].find_next_siblings('div', {"class": "app-privacy__card"}):
                 listTags.append(i)    
             for i in listTags:
             
-                NDP =""
-                DUTY =""
-                DNLU =""
-                DLU =""
-                DNC =""
+
                 try:
                     #print(i.findChild('h3').text.strip())
                     c = i.findChild('h3').text.strip()
@@ -409,7 +410,7 @@ for urls in list_url :
         #print(link_pricacy_policy)
         
         # Insert your list into the table
-        db = sqlite3.connect('app_info.db')
+        db = sqlite3.connect('app_info_urldata1.db')
         cursor = db.cursor()
         cursor.execute("INSERT INTO app_info (app_name,app_url,company_name,develper_website_link,age,category,price,in_app_purchases,rating_avg,rating_count,description,version,latest_version_date,compatibility,size,app_support,privacy_policy_url,HTTP_status,data_used_to_track_user,data_linked_to_user,data_not_linked_to_user,data_not_collected,no_details_provided) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
         (app_name, url, provider_n, providerlink, age_user, category_n, app_price, purch_in_app, rating_avg
