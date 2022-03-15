@@ -8,10 +8,10 @@ from datetime import timedelta
 
 # Create your table
 start_time = time.monotonic()
-db = sqlite3.connect('app_info.db')
+db = sqlite3.connect('app_info_urldata1.db')
 cursor = db.cursor()
 
-sql_command = '''CREATE TABLE IF NOT EXISTS app_info (
+sql_command = '''CREATE TABLE IF NOT EXISTS app_info_urldata1 (
 	id integer PRIMARY KEY AUTOINCREMENT,
     app_name text,
     app_url text,
@@ -411,7 +411,7 @@ for urls in list_url :
         # Insert your list into the table
         db = sqlite3.connect('app_info_urldata1.db')
         cursor = db.cursor()
-        cursor.execute("INSERT INTO app_info (app_name,app_url,company_name,develper_website_link,age,category,price,in_app_purchases,rating_avg,rating_count,description,version,latest_version_date,compatibility,size,app_support,privacy_policy_url,HTTP_status,data_used_to_track_user,data_linked_to_user,data_not_linked_to_user,data_not_collected,no_details_provided) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+        cursor.execute("INSERT INTO app_info_urldata1 (app_name,app_url,company_name,develper_website_link,age,category,price,in_app_purchases,rating_avg,rating_count,description,version,latest_version_date,compatibility,size,app_support,privacy_policy_url,HTTP_status,data_used_to_track_user,data_linked_to_user,data_not_linked_to_user,data_not_collected,no_details_provided) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
         (app_name, url, provider_n, providerlink, age_user, category_n, app_price, purch_in_app, rating_avg
         , app_rating, info_app, app_version, app_version_date, phone_ver, app_size, link_app_support, privacy_policy_link, link_pricacy_policy
         , DUTY, DLU, DNLU, DNC, NDP,))
