@@ -278,7 +278,7 @@ list_url = cursor2.fetchall()
 countapp = 1
 for urls in list_url :
 
-    if countapp % 1000 == 0 :
+    if countapp % 100 == 0 :
         end_time = time.monotonic()
         print("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
         print("-------------------------------",timedelta(seconds=end_time - start_time),"--------------------------")
