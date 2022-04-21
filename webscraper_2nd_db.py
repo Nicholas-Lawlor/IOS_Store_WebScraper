@@ -48,13 +48,13 @@ db.commit()
 
 # working
 def app_title(soup):
-    global app_name
+    name = ""
     for x in soup.findAll("h1",{"class":"product-header__title app-header__title"}):
         for span in soup.findAll("span",{"class":"badge badge--product-title"}):
             span.decompose()
-        app_name = x.text
+        name = x.text
         #print(app_name)
-    return app_name
+    return name
 
     # works
 def provider_link(soup):
@@ -285,7 +285,7 @@ for urls in list_url :
         print("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
 
 
-    if countapp >= 600270 :
+    if countapp >= 623544 :
        # print("----------------------------------START------------------------------------------------")
         
         countapp += 1
